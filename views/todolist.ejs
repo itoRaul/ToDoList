@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Tarefas</title>
+    <link rel="stylesheet" href="/todolist.css"> 
+</head>
+<body>
+    <a href="/users/logout" class="logout-button">Sair</a>
+    <div class="container">
+        <h1>Lista de tarefas de <%= user.name %></h1>
+       
+            <% if (messages.success_msg) { %>
+                <div class="alert alert-success"><%= messages.success_msg %></div>
+            <% } %>
+            <% if (messages.error_msg) { %>
+                <div class="alert alert-error"><%= messages.error_msg %></div>
+            <% } %>
+
+            <form action="/users/tasks/add" method="POST" class="task-form">
+                <input type="text" name="title" class="input-task" placeholder="O que você precisa fazer?" required>
+                <button type="submit" class="button-task" >Adicionar</button>
+            </form>
+        
+            <ul class="task-list">
+                <% if (tasks.length > 0) { %>
+                    <% tasks.forEach(task => { %>
+                        <li class="task-item">
+                            <span class="task-title"><%= task.title %></span>
+                            <div class="task-actions">
+                                <a href="/users/tasks/edit/<%= task.id %>" class="edit-button">Editar</a>
+                                <form action="/users/tasks/delete/<%= task.id %>" method="POST" style="display: inline;">
+                                    <button type="submit" class="delete-button">Apagar</button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }) %>
+                <% } %>  
+            </ul>
+    </div>
+</body>
+</html>
